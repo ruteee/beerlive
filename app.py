@@ -1,30 +1,37 @@
-import json
 import joblib
+import logging
+from PIL import Image
+import json
 import numpy as np
-import cv2
+import  cv2
 from keras.applications.vgg16 import preprocess_input
-from flask import Flask, request, Response, jsonify
+from flask import Flask, request, Response
 
 
 application = Flask(__name__)
-
+loggerr = logging.getLogger()
 
 @application.route('/beer_guess', methods=['POST'])
 def guess_beer():
+    
     response = None
     try:
-        image = json.get_json()['image']
+        loggerr.info("Receiving Image")
+        image = request.files['image']
         label = compute_predictions(image)
-        response = Response(content_type='application/json', status = 200, content = jsonify({"Beer": label}))
+        response = Response(content_type='application/json', status = 200, response = json.dumps({"Beer": label}))
     except BaseException as error:
-        response = Response(content_type='application/json', status = 500, contet=str(error))
+        error_content = {"Error": str(error)}
+        logging.error("Erro on receiving request ", json.dumps(error_content))
+        response = Response(content_type='application/json', status = 400, response = json.dumps(error_content))
     return response
 
 
 def preprocess_image(image):
-    image_processed = cv2.resize(image, (224, 224))
-    image_processed = np.asarray(image_processed)
-    image_processed = image_processed.reshape((image.shape[0], image.shape[1], image.shape[2]))
+    image_processed = Image.open(image)
+    image_processed = np.array(image_processed)
+    image_processed = cv2.resize(src= image_processed, dsize = (224, 224))
+    image_processed = image_processed.reshape((1, image_processed.shape[0], image_processed.shape[1], image_processed.shape[2]))
     image_processed = preprocess_input(image_processed)
     return image_processed
 
