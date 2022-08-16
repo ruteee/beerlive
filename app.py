@@ -17,7 +17,6 @@ logger.addHandler(logging.StreamHandler(sys.stdout))
 
 @application.route('/beer_guess', methods=['POST'])
 def guess_beer():
-    
     response = None
     try:
         logger.info("Receiving Image")
@@ -61,7 +60,6 @@ def get_dict_labels():
 
 def decode_predictions_custom(pred):
     logger.info("Decoding predictions")
-
     items = np.argsort(pred[0])[-5:][::-1]
     classes_dict = get_dict_labels()
     label = list(map(lambda x: classes_dict[x], items))[0]
@@ -89,7 +87,6 @@ def generate_cumpom_messages(beer):
         cupom_str = f"{cupom_str} {cupom_chosed[i]}, "
         tag_index = cupom_list.index(cupom_chosed[i])
         tags_str = f"{tags_str}{tags[tag_index]}, "
-
     return [cupom_str, tags_str]
     
 if __name__ == '__main__':
