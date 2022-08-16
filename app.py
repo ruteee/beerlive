@@ -81,13 +81,14 @@ def generate_cumpom_messages(beer):
     tags = ["CERVEJA10", "CERVEJA5", "LEVE1PAGUEMENOS"]
 
     number_of_cupoms = np.random.randint(1,4)
-    cupom_chosed = np.random.choice(cupom_list, number_of_cupoms, replace=False)
+    cupom_chosed = list(np.random.choice(cupom_list, number_of_cupoms, replace=False))
     cupom_str = "Cupons: "
     tags_str = ""
 
     for i in range(number_of_cupoms):
         cupom_str = f"{cupom_str} {cupom_chosed[i]}, "
-        tags_str = f"{tags_str}{tags[i]}, "
+        tag_index = cupom_list.index(cupom_chosed[i])
+        tags_str = f"{tags_str}{tags[tag_index]}, "
 
     return [cupom_str, tags_str]
     
