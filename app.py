@@ -32,8 +32,8 @@ def guess_beer():
         response = Response(content_type='application/json', status = 200, response = json.dumps({"Label": label, "Message": cupons_description, "Tags": cupons_tag}))
     except BaseException as error:
         error_content = {"Error": str(error)}
-        logger.error("Erro on receiving request ", json.dumps(error_content))
-        response = Response(content_type='application/json', status = 400, response = json.dumps(error_content))
+        logger.error("Error", json.dumps(error_content))
+        response = Response(content_type='application/json', status = 500, response = json.dumps(error_content))
     return response
 
 
