@@ -47,12 +47,7 @@ def preprocess_image(image):
 
 
 def get_dict_labels():
-    mapping_labels =  np.array(['antartica_lata', 'antartica_longneck', 'bohemia_lata',
-       'bohemia_longneck', 'brahma_lata', 'brahma_longneck',
-       'budweiser_lata', 'budweiser_longneck', 'colorado_garrafa',
-       'colorado_lata', 'corona', 'skol_lata', 'skol_litrao',
-       'stella_artois_longneck'])
-
+    mapping_labels =  np.array(['cerveja_lata', 'cerveja_garrafa', 'cerveja_longneck'])
     classes_dict = {}
     for i,classe in enumerate(mapping_labels):
         classes_dict[i] = classe
@@ -67,7 +62,7 @@ def decode_predictions_custom(pred):
 
 def compute_predictions(image):
     logger.info("Model load")
-    model = joblib.load('model_beers.pickle')
+    model = joblib.load('model_beers_novo.pickle')
     image_processed =  preprocess_image(image)
     predictions = model.predict(image_processed)
     final_label = decode_predictions_custom(predictions)
