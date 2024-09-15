@@ -28,7 +28,9 @@ def guess_beer():
         cupons_description = cupom_messages[0]
         cupons_tag = cupom_messages[1]
 
-        response = Response(content_type='application/json', status = 200, response = json.dumps({"Label": label, "Message": cupons_description, "Tags": cupons_tag}))
+        response = Response(content_type='application/json', 
+                status = 200, 
+                response = json.dumps({"Label": label, "Message": cupons_description, "Tags": cupons_tag}))
     except BaseException as error:
         error_content = {"Error": str(error)}
         logger.error("Error", json.dumps(error_content))
@@ -44,7 +46,6 @@ def preprocess_image(image):
     image_processed = image_processed.reshape((1, image_processed.shape[0], image_processed.shape[1], image_processed.shape[2]))
     image_processed = preprocess_input(image_processed)
     return image_processed
-
 
 def get_dict_labels():
     mapping_labels =  np.array(['cerveja_lata', 'cerveja_garrafa', 'cerveja_longneck'])
@@ -63,7 +64,7 @@ def decode_predictions_custom(pred):
 def compute_predictions(image):
     logger.info("Model load")
     model = joblib.load('model_beers_novo.pickle')
-    image_processed =  preprocess_image(image)
+    image_processed = preprocess_image(image)
     predictions = model.predict(image_processed)
     final_label = decode_predictions_custom(predictions)
     return final_label

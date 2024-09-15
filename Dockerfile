@@ -4,7 +4,6 @@ WORKDIR /app
 
 COPY requirements.txt /app/requirements.txt
 
-
 COPY linux_requirements.sh /app/linux_requirements.sh
 
 RUN pip install --no-cache-dir -r /app/requirements.txt
